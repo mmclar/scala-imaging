@@ -35,44 +35,25 @@ def writePixels(ls:List[RGB], image:BufferedImage, r:Int, c:Int):BufferedImage =
 			image
 }
 
-/*def writeRows(ls:List[RGB], image:BufferedImage, r:Int):BufferedImage = {
-	println("Writing row " + r)
-	lazy val (ls:List[RGB], image:BufferedImage) = writeCols(ls, image, r, 0)
-	if (r < image.getHeight) writeRows(ls, image, r+1) else image
-}
-
-def writeCols(ls:List[RGB], image:BufferedImage, r:Int, c:Int):(List[RGB], BufferedImage) = {
-	image.setRGB(c, r, rgbToPixel(ls.head))
-	if (c < image.getWidth()) writeCols(ls.tail, image, r, c+1) else (ls, image)
-}
-	var rgb:RGB = RGB(0,0,0)
-	var p:Int = 0
-	for (r <- (0 until 100)) {
-		for (c <- (0 until width)) {
-			rgb = ls(r*width + c)
-			image.setRGB(c, r, p)
-		}
-		println("Done row " + r)
-	}
-	image
-}
-
-*/
-	
-
-def modify(f:List[RGB] => List[RGB]):Unit = {
-	val imageFile = new File("boat.jpg")
+/* This drives the loading/filtering/saving process. */
+def modify(f:List[RGB] => List[RGB], i:String, o:String):Unit = {
+	val imageFile = new File(i)
 	val inputStream = new FileInputStream(imageFile)
 	val image = ImageIO.read(inputStream)
+	println("Loading Image...")
 	val rgb = readPixelList(image)
 	println("Image Size: " + image.getWidth() + "x" + image.getHeight())
 	println("Filtering...")
 	val filtered = f(rgb)
 	println("Writing image...")
 	val outputImage = writePixelList(filtered, image.getWidth())
-	val	outputFile = new File("out.jpg")
-	ImageIO.write(outputImage, "png", outputFile)
+	val	outputFile = new File(o)
+	ImageIO.write(outputImage, "png", outputFile) // Some JVMs can't encode to JPEG
 }
+
+/*
+ * FILTERS
+ */
 
 /* Take a list of RGB values and return a list with them modified to grayscale */
 def grayscale(ls:List[RGB]):List[RGB] = {
@@ -85,4 +66,4 @@ def grayscale(ls:List[RGB]):List[RGB] = {
 
 def rotate180(ls:List[RGB]) = ls.reverse
 
-modify(grayscale)
+modify(grayscale, "boat.jpg", "out.png")
