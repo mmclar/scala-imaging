@@ -25,14 +25,14 @@ def readPixelList(image:BufferedImage):List[RGB] = {
 /* Given a list of RGB values, generate an image. This could freak out if the list
  * is not of the correct length.
  */
-def writePixelList(ls:List[RGB], width:Int):BufferedImage = 
+def writePixelList(ls:List[RGB], width:Int):BufferedImage = {
+  def writePixels(ls:List[RGB], image:BufferedImage, r:Int, c:Int):BufferedImage = {
+    image.setRGB(c, r, rgbToPixel(ls.head))
+    if (c < image.getWidth()-1) writePixels(ls.tail, image, r, c+1) else
+        if (r < image.getHeight()-1) writePixels(ls.tail, image, r+1, 0) else
+        image
+    }
   writePixels(ls, new BufferedImage(width, ls.length/width, BufferedImage.TYPE_INT_ARGB), 0, 0)
-
-def writePixels(ls:List[RGB], image:BufferedImage, r:Int, c:Int):BufferedImage = {
-  image.setRGB(c, r, rgbToPixel(ls.head))
-  if (c < image.getWidth()-1) writePixels(ls.tail, image, r, c+1) else
-    if (r < image.getHeight()-1) writePixels(ls.tail, image, r+1, 0) else
-      image
 }
 
 /* This drives the loading/filtering/saving process. */
