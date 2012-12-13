@@ -66,4 +66,4 @@ def grayscale(ls:List[RGB]):List[RGB] = {
 
 def rotate180(ls:List[RGB]) = ls.reverse
 
-modify(grayscale, "boat.jpg", "out.png")
+modify(grayscale, "boat-small.jpg", "out.png")
