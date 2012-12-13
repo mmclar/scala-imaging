@@ -66,4 +66,6 @@ def grayscale(ls:List[RGB]):List[RGB] = {
 
 def rotate180(ls:List[RGB]) = ls.reverse
 
-modify(grayscale, "boat-small.jpg", "out.png")
+def dropRed(ls:List[RGB]) = ls.map(rgb => RGB(0, rgb.g, rgb.b))
+
+modify(dropRed, "boat-small.jpg", "out.png")
