@@ -73,6 +73,9 @@ def rotate180(ls:List[RGB]) = ls.reverse
 /* Drop the red channel from each pixel. */
 def dropRed(ls:List[RGB]) = ls.map(rgb => RGB(0, rgb.g, rgb.b))
 
+/* Max the red channel for each pixel. */
+def maxRed(ls:List[RGB]) = ls.map(rgb => RGB(255, rgb.g, rgb.b))
+
 /*
  * Simple horizontal blur:
  *  Average each channel from adjacent (horizontally) pixels. Wraps
@@ -83,4 +86,4 @@ def hblur(ls:List[RGB]):List[RGB] =
     p => RGB((p(0).r+p(1).r)/2, (p(0).g+p(1).g)/2, (p(0).b+p(1).b)/2)
   )
 
-modify(dropRed _ andThen rotate180, "boat-small.jpg", "out.png")
+modify(maxRed _ andThen rotate180, "boat-small.jpg", "out.png")
