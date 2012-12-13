@@ -68,4 +68,14 @@ def rotate180(ls:List[RGB]) = ls.reverse
 
 def dropRed(ls:List[RGB]) = ls.map(rgb => RGB(0, rgb.g, rgb.b))
 
-modify(dropRed, "boat-small.jpg", "out.png")
+/*
+ * Simple horizontal blur:
+ *  Average each channel from adjacent (horizontally) pixels. Wraps
+ *  around at the end of each row.
+ */
+def hblur(ls:List[RGB]):List[RGB] = 
+  ls.head :: ls.sliding(2).toList.map(
+    p => RGB((p(0).r+p(1).r)/2, (p(0).g+p(1).g)/2, (p(0).b+p(1).b)/2)
+  )
+
+modify(hblur, "boat-small.jpg", "out.png")
