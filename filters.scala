@@ -83,4 +83,4 @@ def hblur(ls:List[RGB]):List[RGB] =
     p => RGB((p(0).r+p(1).r)/2, (p(0).g+p(1).g)/2, (p(0).b+p(1).b)/2)
   )
 
-modify(hblur, "boat-small.jpg", "out.png")
+modify(dropRed _ andThen rotate180, "boat-small.jpg", "out.png")
