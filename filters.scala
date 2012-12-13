@@ -64,8 +64,13 @@ def grayscale(ls:List[RGB]):List[RGB] = {
   ls.map(graypixel)
 }
 
+/*
+ * Rotate the image 180 degrees by reversing all pixel values (e.g., the
+ * pixel at bottom-right becomes top-left).
+ */
 def rotate180(ls:List[RGB]) = ls.reverse
 
+/* Drop the red channel from each pixel. */
 def dropRed(ls:List[RGB]) = ls.map(rgb => RGB(0, rgb.g, rgb.b))
 
 /*
