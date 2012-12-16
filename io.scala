@@ -5,7 +5,7 @@ import java.io.FileInputStream
 import java.awt.image.BufferedImage
 
 object RgbIO {
-	def read(path:String):List[RGB] = {
+	def read(path:String):(List[RGB], Int) = {
 		/*
 		 * Given an image, generate a list of the RGB values.
 		 */
@@ -24,10 +24,10 @@ object RgbIO {
 		val image = ImageIO.read(inputStream)
     println("Image Size: " + image.getWidth() + "x" + image.getHeight())
 		println("Loading Image...")
-		readPixelList(image)
+		(readPixelList(image), image.getWidth)
 	}
 
-	def write(path:String, image:List[RGB]):Unit = {
+	def write(path:String, image:List[RGB], width:Int):Unit = {
 		/* 
 		 * Given a list of RGB values and an image width, generate an image. This could freak out if the list 
 		 * is not of the correct length.
@@ -42,8 +42,8 @@ object RgbIO {
 			writePixels(ls, new BufferedImage(width, ls.length/width, BufferedImage.TYPE_INT_ARGB), 0, 0)
 		}
 		println("Writing image...")
-		//val outputImage = writePixelList(image, image.getWidth())
-		//val outputFile = new File(path)
-		//ImageIO.write(outputImage, "png", outputFile) // Some JVMs can't encode to JPEG
+		val outputImage = writePixelList(image, width)
+		val outputFile = new File(path)
+		ImageIO.write(outputImage, "png", outputFile) // Some JVMs can't encode to JPEG
 	}
 }
